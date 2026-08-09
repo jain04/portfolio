@@ -116,9 +116,16 @@ export function CaseStudy({ project, onClose }: CaseStudyProps) {
 
               {project.caseStudy?.sections.map((section) => (
                 <div key={section.heading}>
-                  <h3 className="text-sm font-semibold tracking-tight text-fg">
-                    {section.heading}
-                  </h3>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h3 className="text-sm font-semibold tracking-tight text-fg">
+                      {section.heading}
+                    </h3>
+                    {section.badge && (
+                      <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 font-mono text-[0.5625rem] tracking-[0.16em] text-accent uppercase">
+                        {section.badge}
+                      </span>
+                    )}
+                  </div>
                   {section.body && (
                     <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">
                       {section.body}

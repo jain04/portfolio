@@ -36,7 +36,7 @@ export const skillGroups: SkillGroup[] = [
     items: ['Azure', 'Azure App Service', 'GitHub Actions', 'CI/CD', 'Docker'],
   },
   {
-    title: 'Security',
+    title: 'Application Security',
     icon: 'shield',
     items: [
       'Authentication',

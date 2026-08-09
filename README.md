@@ -116,3 +116,60 @@ matters — content stuck at `opacity: 0`:
 `prefers-reduced-motion` disables reveals, the connector dashes and the pipeline
 pulse. Framer Motion is used only for the mobile menu, the case-study overlay and the
 nav active-item indicator.
+
+## The hero runner
+
+`src/components/hero/runner/` is a small original pixel-art game: a visored bot that
+runs along the base of the hero and jumps over bugs.
+
+```
+sprites.ts   pixel matrices ('#' body, '=' accent) rasterised once to offscreen canvases
+engine.ts    world state, physics, spawning, collision, drawing — a plain class
+HeroRunner.tsx   mounting, sizing, input, teardown
+```
+
+Nothing in it is derived from anyone else's artwork or code; the character and both
+obstacles are authored as character matrices in `sprites.ts`, so restyling one is a
+text edit.
+
+The engine is not React state. It updates 60 times a second, and routing that through
+a re-render would be a performance bug — React owns the mount, the engine owns the
+frame, and the HUD is written straight to the DOM through refs.
+
+Four rules it holds to:
+
+- **Space is never captured globally.** Space is how keyboard users scroll; taking it
+  site-wide for a game would be indefensible. The canvas is a real focusable control,
+  and only claims Space and ArrowUp while it holds focus. Click and tap always work.
+- **It never ends.** Clipping an obstacle costs the streak, not the game. A "game over"
+  parked under the headline would be worse than having no game.
+- **It never runs unseen.** The loop stops when scrolled offscreen or the tab is
+  hidden. Because `ResizeObserver` does not fire in a hidden tab, the canvas is
+  re-measured on the way back in — otherwise a resize performed in a background tab
+  would leave it stale.
+- **Reduced motion means still.** One composed frame, no loop, no input.
+
+## Interactive diagrams and the rest of the layer
+
+Both diagrams explain themselves on hover *and* on focus, and each keeps its
+description area in the layout permanently so revealing one never shifts the diagram.
+
+`PipelineDiagram` is one list with two layouts, chosen by container width: a vertical
+rail in the narrow project card, a horizontal track with a travelling accent in the
+case study. Rendering both and hiding one would duplicate every control for screen
+readers. The travelling accent is a gradient segment moved by `transform` — a literal
+moving dot would animate `left` and force layout every frame.
+
+`ui/Cursor.tsx` adds a contextual label beside the pointer on elements that opt in
+with `data-cursor="view|open|explore"`, on hover-capable pointer-fine devices only.
+
+An earlier version replaced the native cursor with a dot. That was removed
+deliberately: a lagging dot is worse than an arrow at pointing, and hiding the system
+cursor makes selection and affordances feel wrong on a page whose job is to get
+someone hired. The native cursor now stays untouched and the label is additive —
+nothing on the page depends on it.
+
+Two easter eggs, in `hooks/useEasterEggs.ts`: the arrow sequence
+`↑ ↑ ↓ ↓ ← → ← →` fires a one-shot glitch, and `g` toggles a scanline "dev mode".
+Poking the character four times makes it react. All three are inert under reduced
+motion and none of them gate any content.

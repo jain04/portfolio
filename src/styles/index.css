@@ -214,8 +214,90 @@
   animation: rail-travel 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* The horizontal twin of .rail-pulse, for the wide pipeline layout. */
+@keyframes track-travel {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(560%);
+  }
+}
+
+.track-pulse::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 18%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
+  animation: track-travel 3.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .rail-pulse::before {
+  .rail-pulse::before,
+  .track-pulse::before {
     display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Interactive layer
+   Custom cursor, dev mode and the glitch burst. All decorative, all removed
+   under prefers-reduced-motion, and none of it carries information.
+--------------------------------------------------------------------------- */
+
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(91, 140, 255, 0.055) 0px,
+    rgba(91, 140, 255, 0.055) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+}
+
+[data-dev] .eyebrow::before {
+  content: '> ';
+  color: var(--color-accent);
+}
+
+@keyframes glitch-shift {
+  0%,
+  100% {
+    transform: none;
+    filter: none;
+  }
+  20% {
+    transform: translate3d(-2px, 0, 0);
+    filter: hue-rotate(35deg);
+  }
+  40% {
+    transform: translate3d(3px, 1px, 0);
+  }
+  60% {
+    transform: translate3d(-1px, -1px, 0);
+    filter: hue-rotate(-25deg);
+  }
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+}
+
+[data-glitch] main {
+  animation: glitch-shift 0.28s steps(2, end) 4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanlines,
+  [data-glitch] main {
+    animation: none;
+    background-image: none;
   }
 }

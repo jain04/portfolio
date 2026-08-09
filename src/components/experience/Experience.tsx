@@ -3,18 +3,29 @@ import { cn } from '../../lib/cn'
 import { Section, SectionHeading } from '../ui/Section'
 import { Reveal } from '../ui/Reveal'
 import { TagRow } from '../ui/Tag'
-import { education, experience } from '../../data/experience'
+import { PipelineDiagram } from '../projects/PipelineDiagram'
+import { careerPath, education, experience } from '../../data/experience'
 
 export function Experience() {
   return (
     <Section id="experience">
       <SectionHeading
-        eyebrow="Experience"
+        eyebrow="Where I've shipped"
         title="Production software, in production conditions."
         description="From building business dashboards against real organizational requirements to engineering a production multi-tenant SaaS platform."
       />
 
-      <div className="mt-12 space-y-4 lg:mt-14">
+      {/* The progression, before the detail: an intern building dashboards
+          becoming an engineer shipping a secured production platform. */}
+      <Reveal className="mt-12 lg:mt-14">
+        <PipelineDiagram
+          title="The path so far"
+          stages={careerPath}
+          footer="Each step below is an instance of one of these."
+        />
+      </Reveal>
+
+      <div className="mt-8 space-y-4">
         {experience.map((role, index) => (
           <Reveal as="article" key={role.company} delay={index * 0.05}>
             <div className="grid gap-6 rounded-2xl border border-line bg-surface p-6 sm:p-8 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-12 lg:p-10">

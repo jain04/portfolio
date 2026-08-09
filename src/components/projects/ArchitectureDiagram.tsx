@@ -1,6 +1,7 @@
+import { useId, useState } from 'react'
 import { cn } from '../../lib/cn'
 import { Reveal } from '../ui/Reveal'
-import type { ArchitectureTier } from '../../data/projects'
+import type { ArchitectureTier, DiagramNode } from '../../data/projects'
 
 type ArchitectureDiagramProps = {
   title?: string
@@ -20,6 +21,10 @@ const tones: Record<NonNullable<ArchitectureTier['tone']>, string> = {
  * because they are peers — three portals, two data services — which is the whole
  * point: a platform is not a sequence of steps, and drawing it as one would
  * misrepresent it.
+ *
+ * Every component is a real button: hovering explains it, and so does tabbing to
+ * it. The explanation area is always in the layout, so revealing one never
+ * shifts the diagram.
  */
 export function ArchitectureDiagram({
   title,
@@ -27,7 +32,9 @@ export function ArchitectureDiagram({
   footer,
   className,
 }: ArchitectureDiagramProps) {
+  const [active, setActive] = useState<DiagramNode | null>(null)
   const last = tiers.length - 1
+  const detailId = useId()
 
   return (
     <figure
@@ -38,6 +45,7 @@ export function ArchitectureDiagram({
         '@container rounded-2xl border border-line bg-surface/60 p-5 sm:p-6',
         className,
       )}
+      onMouseLeave={() => setActive(null)}
     >
       {title && (
         <figcaption className="mb-5 flex items-center justify-between gap-3">
@@ -62,19 +70,33 @@ export function ArchitectureDiagram({
               {/* Peers share one row once the figure is wide enough for them;
                   below that they fall to two per row instead of being cut off. */}
               <div className="grid grid-cols-2 gap-1.5 @xs:auto-cols-fr @xs:grid-flow-col @xs:grid-cols-none">
-                {tier.items.map((item) => (
-                  <span
-                    key={item}
-                    className={cn(
-                      // No truncation: a chip that wraps to two lines still reads,
-                      // a chip cut off mid-word looks broken.
-                      'min-w-0 rounded-lg border px-2.5 py-2.5 text-center text-[0.8125rem] leading-tight font-medium tracking-tight text-balance',
-                      tones[tier.tone ?? 'core'],
-                    )}
-                  >
-                    {item}
-                  </span>
-                ))}
+                {tier.items.map((item) => {
+                  const isActive = active?.label === item.label
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      aria-describedby={isActive ? detailId : undefined}
+                      onMouseEnter={() => setActive(item)}
+                      onFocus={() => setActive(item)}
+                      onBlur={() => setActive(null)}
+                      onClick={() => setActive(isActive ? null : item)}
+                      data-cursor="explore"
+                      className={cn(
+                        // No truncation: a chip that wraps to two lines still
+                        // reads, a chip cut off mid-word looks broken.
+                        'min-w-0 rounded-lg border px-2.5 py-2.5 text-center text-[0.8125rem] leading-tight font-medium tracking-tight text-balance transition-all duration-200',
+                        tones[tier.tone ?? 'core'],
+                        isActive
+                          ? 'border-accent bg-accent/15 text-fg'
+                          : 'hover:border-line-strong',
+                        active && !isActive && 'opacity-45',
+                      )}
+                    >
+                      {item.label}
+                    </button>
+                  )
+                })}
               </div>
             </Reveal>
 
@@ -106,10 +128,21 @@ export function ArchitectureDiagram({
         ))}
       </div>
 
+      {/* Fixed height so revealing a description never reflows the diagram. */}
+      <p
+        id={detailId}
+        aria-live="polite"
+        className="mt-5 flex min-h-[3.25rem] items-start border-t border-line pt-4 text-[0.8125rem] leading-relaxed text-muted"
+      >
+        {active?.detail ?? (
+          <span className="font-mono text-[0.6875rem] text-faint">
+            Hover a component to inspect it.
+          </span>
+        )}
+      </p>
+
       {footer && (
-        <p className="mt-5 border-t border-line pt-4 font-mono text-[0.6875rem] leading-relaxed text-faint">
-          {footer}
-        </p>
+        <p className="mt-3 font-mono text-[0.6875rem] leading-relaxed text-faint">{footer}</p>
       )}
     </figure>
   )

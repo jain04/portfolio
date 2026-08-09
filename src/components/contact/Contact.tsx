@@ -49,6 +49,7 @@ export function Contact() {
                     href={link.href}
                     {...(isExternal ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
                     {...(isDownload ? { download: '' } : {})}
+                    data-cursor={isDownload ? 'download' : isExternal ? 'open' : undefined}
                     className="group flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-surface-2"
                   >
                     <span className="flex items-center gap-3">

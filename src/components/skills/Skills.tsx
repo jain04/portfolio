@@ -18,7 +18,7 @@ export function Skills() {
     <Section id="skills">
       <SectionHeading
         eyebrow="Technical expertise"
-        title="The stack I actually work in."
+        title="The stack I build with."
         description="Grouped by the layer of the system they belong to, not by how confident a progress bar could look."
       />
 

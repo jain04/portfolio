@@ -5,6 +5,7 @@ import { cn } from '../../lib/cn'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { useScrolled } from '../../hooks/useScrolled'
 import { useLockBodyScroll } from '../../hooks/useLockBodyScroll'
+import { ScrollProgress } from '../ui/ScrollProgress'
 import { profile, RESUME_URL } from '../../data/profile'
 
 const links = [
@@ -104,6 +105,8 @@ export function Nav() {
           </button>
         </div>
       </nav>
+
+      <ScrollProgress />
 
       <AnimatePresence>
         {open && (

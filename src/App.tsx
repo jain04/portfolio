@@ -8,8 +8,12 @@ import { Principles } from './components/sections/Principles'
 import { About } from './components/sections/About'
 import { Contact } from './components/contact/Contact'
 import { Footer } from './components/layout/Footer'
+import { Cursor } from './components/ui/Cursor'
+import { useEasterEggs } from './hooks/useEasterEggs'
 
 export default function App() {
+  const { devMode, toast } = useEasterEggs()
+
   return (
     <>
       <a
@@ -18,6 +22,20 @@ export default function App() {
       >
         Skip to content
       </a>
+
+      <Cursor />
+
+      {/* Dev mode: scanlines over the whole page, purely decorative. */}
+      {devMode && <div aria-hidden className="scanlines pointer-events-none fixed inset-0 z-[90]" />}
+
+      {toast && (
+        <div
+          role="status"
+          className="fixed bottom-6 left-1/2 z-[95] -translate-x-1/2 rounded-full border border-accent/30 bg-surface/90 px-4 py-2 font-mono text-[0.6875rem] tracking-[0.16em] text-accent uppercase backdrop-blur-md"
+        >
+          {toast}
+        </div>
+      )}
 
       <Nav />
 

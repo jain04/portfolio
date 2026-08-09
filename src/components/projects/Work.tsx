@@ -17,9 +17,26 @@ export function Work() {
 
   return (
     <Section id="work">
+      {/* Picks up the runner's thread from the hero — the character has been
+          travelling, and this is where it arrives. */}
+      <div className="mb-10 flex items-center gap-3 font-mono text-[0.625rem] tracking-[0.2em] text-faint uppercase">
+        <span aria-hidden className="relative flex size-1.5 shrink-0">
+          <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
+          <span className="relative inline-flex size-1.5 rounded-full bg-accent" />
+        </span>
+        <span className="whitespace-nowrap">Checkpoint · systems found</span>
+        <span aria-hidden className="hidden whitespace-nowrap text-line-strong sm:inline">
+          //
+        </span>
+        <span className="hidden whitespace-nowrap text-accent sm:inline">
+          {featuredProjects.length} production systems
+        </span>
+        <span aria-hidden className="h-px flex-1 bg-line" />
+      </div>
+
       <SectionHeading
         eyebrow="Selected work"
-        title="Systems, not screens."
+        title="Things I've built."
         description="A few systems and products I've worked on across SaaS, automation, analytics and AI."
       />
 
@@ -79,6 +96,23 @@ function FeaturedCard({
             {project.name}
           </h3>
           <p className="mt-2 text-[0.9375rem] font-medium text-accent">{project.tagline}</p>
+
+          <p className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[0.625rem] tracking-[0.14em] text-faint uppercase">
+            <span>
+              system: <span className="text-muted">{project.id.replace(/-/g, '_')}</span>
+            </span>
+            {project.status && (
+              <>
+                <span aria-hidden className="text-line-strong">
+                  ·
+                </span>
+                <span>
+                  status: <span className="text-accent">{project.status}</span>
+                </span>
+              </>
+            )}
+          </p>
+
           <p className="mt-4 max-w-xl text-[0.9375rem] leading-relaxed text-muted">
             {project.summary}
           </p>
@@ -109,6 +143,7 @@ function FeaturedCard({
         <button
           type="button"
           onClick={onOpen}
+          data-cursor="view"
           className="inline-flex items-center gap-2 text-sm font-medium text-fg transition-colors"
         >
           Explore case study
@@ -147,7 +182,9 @@ function CompactCard({
         )}
       </div>
 
-      <h3 className="mt-4 text-lg font-semibold tracking-[-0.02em]">{project.name}</h3>
+      <h3 className="mt-4 text-lg font-semibold tracking-[-0.02em] transition-transform duration-300 group-hover:translate-x-0.5">
+        {project.name}
+      </h3>
       <p className="mt-1.5 text-[0.8125rem] text-accent">{project.tagline}</p>
       <p className="mt-3.5 flex-1 text-[0.875rem] leading-relaxed text-muted">
         {project.summary}
@@ -159,6 +196,7 @@ function CompactCard({
         <button
           type="button"
           onClick={onOpen}
+          data-cursor="view"
           className="mt-5 inline-flex w-fit items-center gap-1.5 text-[0.8125rem] font-medium text-fg"
         >
           View details

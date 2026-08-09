@@ -1,3 +1,46 @@
+import type { PipelineStage } from './projects'
+
+/**
+ * The through-line, stated once and explicitly. Each role and project below is
+ * an instance of one of these steps; this is the shape they add up to, and it is
+ * the first thing the experience section shows.
+ */
+export const careerPath: PipelineStage[] = [
+  {
+    key: 'CYTECARE',
+    label: 'IT / Software Development Intern',
+    detail:
+      'Business dashboards, operational analytics and real-time visualization in Python and Django.',
+  },
+  {
+    key: 'BFIRST',
+    label: 'Software Engineer',
+    detail: 'Full-stack engineering on a production multi-tenant SaaS platform.',
+  },
+  {
+    key: 'ACCUMAX',
+    label: 'Production SaaS',
+    detail:
+      'Portals, workflows, documents, reporting and billing for tax and accounting firms.',
+  },
+  {
+    key: 'SECURITY',
+    label: 'Application hardening',
+    detail:
+      'SQL injection prevention, authentication, MFA/TOTP, RBAC and secure token handling.',
+  },
+  {
+    key: 'AUTOMATION',
+    label: 'Desktop integration',
+    detail: '.NET 8 and Microsoft UI Automation driving desktop tax software.',
+  },
+  {
+    key: 'AI',
+    label: 'Intelligent workflows',
+    detail: 'Generative AI applied where it genuinely improves a workflow.',
+  },
+]
+
 export type Experience = {
   role: string
   company: string

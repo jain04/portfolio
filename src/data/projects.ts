@@ -2,6 +2,14 @@ export type CaseStudySection = {
   heading: string
   body?: string
   bullets?: string[]
+  /** A short system-console stamp, in the runner's voice. Used sparingly. */
+  badge?: string
+}
+
+/** A component of a diagram. `detail` is revealed on hover or focus. */
+export type DiagramNode = {
+  label: string
+  detail: string
 }
 
 /**
@@ -10,17 +18,19 @@ export type CaseStudySection = {
  */
 export type ArchitectureTier = {
   label: string
-  items: string[]
+  items: DiagramNode[]
   tone?: 'edge' | 'core' | 'data'
 }
 
 /**
  * One step of a sequential pipeline. `key` is the short uppercase rail label,
- * `label` the human description beside it.
+ * `label` the human description beside it, `detail` the explanation shown when
+ * the stage is hovered or focused.
  */
 export type PipelineStage = {
   key: string
   label: string
+  detail: string
 }
 
 export type Project = {
@@ -34,6 +44,8 @@ export type Project = {
   kind: 'saas' | 'automation' | 'analytics' | 'ai' | 'product'
   /** Where the work happened — an employer, or 'Project' for personal work. */
   context: string
+  /** Shown in the system readout. Only set where it is literally true. */
+  status?: string
   tags: string[]
   /** Capability chips. The card shows a slice; the case study shows them all. */
   areas?: string[]
@@ -61,6 +73,7 @@ export const projects: Project[] = [
     featured: true,
     kind: 'saas',
     context: 'BFirst',
+    status: 'Production',
     tags: [
       'Angular',
       'React',
@@ -101,10 +114,68 @@ export const projects: Project[] = [
       architecture: {
         title: 'Platform architecture',
         tiers: [
-          { label: 'Portals', tone: 'edge', items: ['Client', 'CPA', 'Admin'] },
-          { label: 'Workflows', tone: 'core', items: ['Tasks', 'Documents', 'Notifications'] },
-          { label: 'Services', tone: 'core', items: ['Backend APIs'] },
-          { label: 'Platform', tone: 'data', items: ['MongoDB', 'Azure'] },
+          {
+            label: 'Portals',
+            tone: 'edge',
+            items: [
+              {
+                label: 'Client',
+                detail: 'Client-facing portal for documents, tasks and communication with the firm.',
+              },
+              {
+                label: 'CPA',
+                detail: 'CPA workspace covering engagements, client management and workflows.',
+              },
+              {
+                label: 'Admin',
+                detail: 'Administrative control over organizations, users, roles and permissions.',
+              },
+            ],
+          },
+          {
+            label: 'Workflows',
+            tone: 'core',
+            items: [
+              {
+                label: 'Tasks',
+                detail: 'Task and workflow tracking across teams and engagements.',
+              },
+              {
+                label: 'Documents',
+                detail: 'Document management with role-based access to each file.',
+              },
+              {
+                label: 'Notifications',
+                detail: 'Notification delivery driven by activity across the platform.',
+              },
+            ],
+          },
+          {
+            label: 'Services',
+            tone: 'core',
+            items: [
+              {
+                label: 'Backend APIs',
+                detail:
+                  'REST APIs connecting portal workflows to backend services, behind authentication and role checks.',
+              },
+            ],
+          },
+          {
+            label: 'Platform',
+            tone: 'data',
+            items: [
+              {
+                label: 'MongoDB',
+                detail:
+                  'MongoDB aggregation pipelines powering reporting, dashboards and data exports.',
+              },
+              {
+                label: 'Azure',
+                detail: 'Azure App Service hosting, deployed through GitHub Actions workflows.',
+              },
+            ],
+          },
         ],
         footer: 'Authentication · RBAC · MFA · Caching · Reporting · CI/CD · Integrations',
       },
@@ -131,6 +202,7 @@ export const projects: Project[] = [
         },
         {
           heading: 'Security & reliability',
+          badge: 'Threat mitigated',
           body: 'A platform holding financial and tax data for multiple firms has to be defensible at every layer, not just behind a login. I worked on application security and security hardening across the platform — identifying and addressing SQL injection risks, and strengthening how the application authenticates, authorizes, validates input and handles tokens.',
           bullets: [
             'Identifying and addressing SQL injection risks in the application.',
@@ -160,6 +232,7 @@ export const projects: Project[] = [
     featured: true,
     kind: 'automation',
     context: 'BFirst',
+    status: 'Production',
     tags: [
       '.NET 8',
       'C#',
@@ -184,12 +257,46 @@ export const projects: Project[] = [
       pipeline: {
         title: 'Automation pipeline',
         stages: [
-          { key: 'DATA', label: 'Structured tax data' },
-          { key: 'TRANSFORM', label: 'Value transformation' },
-          { key: 'MAP', label: 'Business field mapping' },
-          { key: 'IDENTIFY', label: 'Screen identification' },
-          { key: 'AUTOMATE', label: 'UI Automation into desktop tax software' },
-          { key: 'VERIFY', label: 'Post-write verification' },
+          {
+            key: 'DATA',
+            label: 'Structured tax data',
+            detail: 'Structured tax data from the platform, not scanned pixels.',
+          },
+          {
+            key: 'EXTRACT',
+            label: 'Extraction',
+            detail: 'Pulls the fields the target return actually requires.',
+          },
+          {
+            key: 'TRANSFORM',
+            label: 'Value transformation',
+            detail: 'Converts values into the formats the target software expects.',
+          },
+          {
+            key: 'MAP',
+            label: 'Business field mapping',
+            detail: 'Maps structured business data to application-specific fields.',
+          },
+          {
+            key: 'IDENTIFY',
+            label: 'Screen identification',
+            detail: 'Identifies the correct desktop screen and its controls before writing.',
+          },
+          {
+            key: 'AUTOMATE',
+            label: 'Microsoft UI Automation',
+            detail: 'Writes values through Microsoft UI Automation.',
+          },
+          {
+            key: 'DESKTOP',
+            label: 'Desktop tax software',
+            detail: 'The target application, driven through its own accessibility tree.',
+          },
+          {
+            key: 'VERIFY',
+            label: 'Post-write verification',
+            detail: 'Reads back what landed on screen and confirms it matches.',
+          },
         ],
         footer: 'Driven by structured data and declarative field mappings — not OCR.',
       },
@@ -200,6 +307,7 @@ export const projects: Project[] = [
         },
         {
           heading: 'The approach',
+          badge: 'Process automated',
           body: 'A UI Automation-based system built on .NET 8 and Microsoft UI Automation. Structured data is transformed into target values, mapped onto business fields, and written into the correct screen once that screen has been positively identified. This is not OCR — nothing is read off pixels. Everything runs on structured data, declarative field mappings and the application’s own accessibility tree.',
           bullets: [
             'Discovering application screens and inspecting UI hierarchies',
@@ -245,12 +353,36 @@ export const projects: Project[] = [
       pipeline: {
         title: 'From requirement to visibility',
         stages: [
-          { key: 'REQUIREMENT', label: 'Business and operational requirement' },
-          { key: 'PROCESS', label: 'Data processing with Pandas' },
-          { key: 'LOGIC', label: 'Django application and backend logic' },
-          { key: 'ANALYTICS', label: 'Operational analytics' },
-          { key: 'DASHBOARD', label: 'Interactive dashboard, live over WebSockets' },
-          { key: 'VISIBILITY', label: 'Operational visibility for the team' },
+          {
+            key: 'REQUIREMENT',
+            label: 'Business and operational requirement',
+            detail: 'What a team actually needed to see, stated in their terms.',
+          },
+          {
+            key: 'PROCESS',
+            label: 'Data processing',
+            detail: 'Shaping and aggregating the operational data with Pandas.',
+          },
+          {
+            key: 'LOGIC',
+            label: 'Application logic',
+            detail: 'Django application and backend logic behind the views.',
+          },
+          {
+            key: 'ANALYTICS',
+            label: 'Operational analytics',
+            detail: 'Turning processed data into the metrics that mattered.',
+          },
+          {
+            key: 'DASHBOARD',
+            label: 'Interactive dashboard',
+            detail: 'Interactive charts kept live over WebSockets.',
+          },
+          {
+            key: 'VISIBILITY',
+            label: 'Operational visibility',
+            detail: 'A team seeing its own operation without rebuilding a spreadsheet.',
+          },
         ],
       },
       sections: [
