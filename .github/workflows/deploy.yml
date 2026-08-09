@@ -31,6 +31,15 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          # Turns Pages on and sets the source to GitHub Actions if it isn't
+          # already, instead of failing with "Get Pages site failed / Not Found"
+          # on a repo where Pages was never enabled. Runs before the build so a
+          # misconfiguration fails fast rather than after a full install+build.
+          enablement: true
+
       - name: Install dependencies
         # Lockfile-exact install; fails loudly if package.json and the lockfile
         # have drifted, rather than silently resolving something new.
@@ -38,9 +47,6 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
