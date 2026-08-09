@@ -4,6 +4,25 @@ export type CaseStudySection = {
   bullets?: string[]
 }
 
+/**
+ * One horizontal band of a layered system. Tiers stack top-to-bottom; the items
+ * inside a tier sit side by side because they are peers, not steps.
+ */
+export type ArchitectureTier = {
+  label: string
+  items: string[]
+  tone?: 'edge' | 'core' | 'data'
+}
+
+/**
+ * One step of a sequential pipeline. `key` is the short uppercase rail label,
+ * `label` the human description beside it.
+ */
+export type PipelineStage = {
+  key: string
+  label: string
+}
+
 export type Project = {
   id: string
   name: string
@@ -13,16 +32,21 @@ export type Project = {
   featured: boolean
   /** Rendered inside the card as an ambient diagram/label pair. */
   kind: 'saas' | 'automation' | 'analytics' | 'ai' | 'product'
-  year: string
+  /** Where the work happened — an employer, or 'Project' for personal work. */
+  context: string
   tags: string[]
-  /** Small capability chips shown on the featured cards. */
+  /** Capability chips. The card shows a slice; the case study shows them all. */
   areas?: string[]
   links?: { label: string; href: string }[]
   caseStudy?: {
     overview: string
     sections: CaseStudySection[]
-    /** Ordered pipeline/architecture nodes rendered as a diagram. */
-    diagram?: { title: string; nodes: string[]; footer?: string }
+    /**
+     * A system is drawn as layered tiers, a process as an ordered pipeline.
+     * Projects declare whichever one actually describes them — never both.
+     */
+    architecture?: { title: string; tiers: ArchitectureTier[]; footer?: string }
+    pipeline?: { title: string; stages: PipelineStage[]; footer?: string }
     challenges?: string[]
   }
 }
@@ -36,7 +60,7 @@ export const projects: Project[] = [
       'A production SaaS platform for tax and accounting firms, bringing client management, CPA workflows, documents, tasks, communication, reporting, billing and automation into one platform.',
     featured: true,
     kind: 'saas',
-    year: 'BFirst',
+    context: 'BFirst',
     tags: [
       'Angular',
       'React',
@@ -55,6 +79,10 @@ export const projects: Project[] = [
       'Role-Based Access',
       'Authentication',
       'MFA / TOTP',
+      'Application Security',
+      'SQL Injection Prevention',
+      'Input Validation',
+      'API Security',
       'Workflow Management',
       'Document Management',
       'Reporting',
@@ -70,16 +98,15 @@ export const projects: Project[] = [
     caseStudy: {
       overview:
         'AccuMax is a multi-tenant SaaS platform designed for tax and accounting firms. Clients, CPAs, administrators and internal teams work inside the same platform, each with their own portal, permissions and workflows.',
-      diagram: {
+      architecture: {
         title: 'Platform architecture',
-        nodes: [
-          'Admin Portal · CPA Portal · Client Portal',
-          'Team Workflows',
-          'Backend APIs',
-          'MongoDB',
-          'Azure',
+        tiers: [
+          { label: 'Portals', tone: 'edge', items: ['Client', 'CPA', 'Admin'] },
+          { label: 'Workflows', tone: 'core', items: ['Tasks', 'Documents', 'Notifications'] },
+          { label: 'Services', tone: 'core', items: ['Backend APIs'] },
+          { label: 'Platform', tone: 'data', items: ['MongoDB', 'Azure'] },
         ],
-        footer: 'Authentication · RBAC · MFA · Caching · CI/CD · Reporting · Integrations',
+        footer: 'Authentication · RBAC · MFA · Caching · Reporting · CI/CD · Integrations',
       },
       sections: [
         {
@@ -102,12 +129,24 @@ export const projects: Project[] = [
             'Developed automation and integration workflows for tax preparation software.',
           ],
         },
+        {
+          heading: 'Security & reliability',
+          body: 'A platform holding financial and tax data for multiple firms has to be defensible at every layer, not just behind a login. I worked on application security and security hardening across the platform — identifying and addressing SQL injection risks, and strengthening how the application authenticates, authorizes, validates input and handles tokens.',
+          bullets: [
+            'Identifying and addressing SQL injection risks in the application.',
+            'Authentication, MFA/TOTP and role-based access control across four portal experiences.',
+            'JWT handling, refresh-token rotation and secure cookie controls.',
+            'API security and authorization checks on sensitive operations.',
+            'Secure input handling on the paths where untrusted data reaches the system.',
+          ],
+        },
       ],
       challenges: [
         'Keeping tenant data isolated while sharing platform services',
         'Modelling permissions across four distinct portal experiences',
         'Aggregation and reporting over high-volume workflow data',
         'Session security: MFA, refresh-token rotation, secure cookies',
+        'Closing application-layer risks such as SQL injection',
         'Repeatable deployments across multiple environments',
       ],
     },
@@ -120,7 +159,7 @@ export const projects: Project[] = [
       'A .NET automation system that takes structured tax data, maps it to the right fields and screens, and enters it into desktop tax preparation software through Microsoft UI Automation — then verifies what was written.',
     featured: true,
     kind: 'automation',
-    year: 'BFirst',
+    context: 'BFirst',
     tags: [
       '.NET 8',
       'C#',
@@ -142,18 +181,17 @@ export const projects: Project[] = [
     caseStudy: {
       overview:
         'Tax preparation happens inside desktop software that was never designed to be driven by another system. This project connects structured tax data from the CPA portal to that software, without asking anyone to retype it.',
-      diagram: {
+      pipeline: {
         title: 'Automation pipeline',
-        nodes: [
-          'Structured Tax Data',
-          'Extraction',
-          'Transformation',
-          'Field Mapping',
-          'Screen Identification',
-          'Microsoft UI Automation',
-          'Desktop Tax Software',
-          'Verification',
+        stages: [
+          { key: 'DATA', label: 'Structured tax data' },
+          { key: 'TRANSFORM', label: 'Value transformation' },
+          { key: 'MAP', label: 'Business field mapping' },
+          { key: 'IDENTIFY', label: 'Screen identification' },
+          { key: 'AUTOMATE', label: 'UI Automation into desktop tax software' },
+          { key: 'VERIFY', label: 'Post-write verification' },
         ],
+        footer: 'Driven by structured data and declarative field mappings — not OCR.',
       },
       sections: [
         {
@@ -184,27 +222,52 @@ export const projects: Project[] = [
   },
   {
     id: 'hospital-analytics',
-    name: 'Real-Time Hospital Analytics',
-    tagline: 'Operational dashboards with live updates and patient-level drilldowns',
+    name: 'Real-Time Hospital Analytics Dashboard',
+    tagline: 'Business and operational dashboards built from real requirements',
     summary:
-      'An analytics dashboard for hospital operations with interactive visualizations, real-time updates and patient-level drilldowns, replacing manual Excel-based reporting.',
+      'Business and operational dashboards for Cytecare Hospitals providing interactive analytics, real-time visibility and drill-down views, reducing reliance on manual Excel-based workflows.',
     featured: false,
     kind: 'analytics',
-    year: 'Project',
+    context: 'Cytecare Hospitals',
     tags: ['Python', 'Django', 'Streamlit', 'WebSockets', 'Chart.js', 'Pandas'],
+    areas: [
+      'Business Requirements',
+      'Dashboard Development',
+      'Real-Time Analytics',
+      'Interactive Visualization',
+      'Operational Tracking',
+      'Data Processing',
+      'Drill-Down Views',
+    ],
     caseStudy: {
       overview:
-        'Hospital operations were tracked through manual spreadsheets. This project turns that reporting into a live dashboard where operational data updates as it changes.',
+        'Operational reporting was being assembled and maintained by hand in spreadsheets. This was my first experience building software against real organizational requirements rather than a specification I had written for myself: sitting with what teams actually needed to see, and turning it into dashboards that stayed current on their own.',
+      pipeline: {
+        title: 'From requirement to visibility',
+        stages: [
+          { key: 'REQUIREMENT', label: 'Business and operational requirement' },
+          { key: 'PROCESS', label: 'Data processing with Pandas' },
+          { key: 'LOGIC', label: 'Django application and backend logic' },
+          { key: 'ANALYTICS', label: 'Operational analytics' },
+          { key: 'DASHBOARD', label: 'Interactive dashboard, live over WebSockets' },
+          { key: 'VISIBILITY', label: 'Operational visibility for the team' },
+        ],
+      },
       sections: [
         {
           heading: 'What it does',
           bullets: [
-            'Real-time dashboards driven over WebSockets',
+            'Business and operational dashboards for tracking and analysis',
+            'Real-time updates delivered over WebSockets',
             'Interactive charts for operational metrics',
-            'Patient-level drilldowns from summary views',
+            'Drill-down views from summary metrics into underlying detail',
             'Operational analytics assembled with Pandas',
-            'Removes repetitive manual Excel reporting',
+            'Removes repetitive manual Excel-based reporting',
           ],
+        },
+        {
+          heading: 'What it taught me',
+          body: 'That the hard part of business software is rarely the framework. It is understanding what someone needs to see, where that data actually lives, and what has to stay true every time the dashboard refreshes — the same questions that turn up later on a much larger platform.',
         },
       ],
     },
@@ -217,7 +280,7 @@ export const projects: Project[] = [
       'A travel planning application that generates itineraries with Gemini AI, backed by Firebase and a responsive React interface.',
     featured: false,
     kind: 'ai',
-    year: 'Project',
+    context: 'Project',
     tags: ['React', 'Tailwind CSS', 'Firebase', 'Gemini AI'],
     caseStudy: {
       overview:
@@ -243,7 +306,7 @@ export const projects: Project[] = [
       'A full-stack storefront covering product catalogue, cart, checkout flow and order handling on a REST API backend.',
     featured: false,
     kind: 'product',
-    year: 'Project',
+    context: 'Project',
     tags: ['React', 'Node.js', 'Express', 'MongoDB', 'REST APIs'],
   },
   {
@@ -254,10 +317,15 @@ export const projects: Project[] = [
       'A cross-platform mobile news client built in Flutter, with category browsing and article views over a live news API.',
     featured: false,
     kind: 'product',
-    year: 'Project',
+    context: 'Project',
     tags: ['Flutter', 'Dart', 'REST APIs'],
   },
 ]
+
+/** True when a project declares a visual, so callers can skip empty columns. */
+export function hasDiagram(project: Project): boolean {
+  return Boolean(project.caseStudy?.architecture ?? project.caseStudy?.pipeline)
+}
 
 export const featuredProjects = projects.filter((p) => p.featured)
 export const otherProjects = projects.filter((p) => !p.featured)

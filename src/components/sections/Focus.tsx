@@ -20,7 +20,10 @@ export function Focus() {
         description="The work spans the whole path from the screen a user touches to the infrastructure it runs on."
       />
 
-      <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
+      {/* Deliberately not cards: this section sits right under a dense hero, and
+          four more bordered boxes would read as filler. A ruled column each is
+          lighter and lets the page breathe before Selected Work. */}
+      <ul className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
         {focusAreas.map((area, index) => {
           const Icon = icons[area.icon] ?? Layers
           return (
@@ -28,13 +31,13 @@ export function Focus() {
               as="li"
               key={area.title}
               delay={index * 0.06}
-              className="group rounded-2xl border border-line bg-surface p-6 transition-colors duration-300 hover:border-line-strong"
+              className="group border-t border-line pt-6 transition-colors duration-300 hover:border-accent/40"
             >
-              <span className="inline-flex size-9 items-center justify-center rounded-lg border border-line bg-surface-2 text-accent">
-                <Icon className="size-4" aria-hidden />
-              </span>
-              <h3 className="mt-5 text-base font-semibold tracking-tight">{area.title}</h3>
-              <p className="mt-2 text-[0.875rem] leading-relaxed text-muted">
+              <div className="flex items-center gap-2.5">
+                <Icon className="size-4 shrink-0 text-accent" aria-hidden />
+                <h3 className="text-base font-semibold tracking-tight">{area.title}</h3>
+              </div>
+              <p className="mt-3 text-[0.875rem] leading-relaxed text-muted">
                 {area.description}
               </p>
             </Reveal>

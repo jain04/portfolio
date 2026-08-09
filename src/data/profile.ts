@@ -37,8 +37,9 @@ export const profile = {
     'Full-Stack Software Engineer specializing in scalable SaaS platforms, workflow automation, integrations and AI-powered applications.',
   about: [
     "I'm Aditya Jain, a Full-Stack Software Engineer focused on building scalable products, SaaS platforms, automation systems and AI-powered applications.",
-    'My work spans frontend development, backend engineering, databases, cloud infrastructure, authentication, reporting, integrations and automation.',
-    'I enjoy solving problems where software has to connect systems, simplify complex workflows, and operate reliably at scale.',
+    'I started out building business and operational dashboards during an internship at Cytecare Hospitals — turning what teams actually needed to see into working analytics software, instead of spreadsheets kept up to date by hand.',
+    'Today I work on AccuMax at BFirst, a production multi-tenant SaaS platform for tax and accounting firms. That work spans frontend and backend development, databases, cloud infrastructure, reporting and workflow systems, and application security — authentication, authorization, secure token handling and hardening against application-layer vulnerabilities.',
+    'The through-line has been making systems dependable and connecting the ones that were never designed to talk to each other: automating tax data into desktop software that exposes no API, and using AI where it genuinely improves a workflow.',
   ],
   contactHeading: "Let's build something meaningful.",
   contactCopy:

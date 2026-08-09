@@ -1,4 +1,5 @@
 import { GraduationCap } from 'lucide-react'
+import { cn } from '../../lib/cn'
 import { Section, SectionHeading } from '../ui/Section'
 import { Reveal } from '../ui/Reveal'
 import { TagRow } from '../ui/Tag'
@@ -10,21 +11,34 @@ export function Experience() {
       <SectionHeading
         eyebrow="Experience"
         title="Production software, in production conditions."
+        description="From building business dashboards against real organizational requirements to engineering a production multi-tenant SaaS platform."
       />
 
-      <div className="mt-12 lg:mt-14">
+      <div className="mt-12 space-y-4 lg:mt-14">
         {experience.map((role, index) => (
           <Reveal as="article" key={role.company} delay={index * 0.05}>
             <div className="grid gap-6 rounded-2xl border border-line bg-surface p-6 sm:p-8 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-12 lg:p-10">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full bg-accent" aria-hidden />
-                  <span className="font-mono text-[0.6875rem] tracking-[0.14em] text-accent uppercase">
-                    Current
+                  {role.current && (
+                    <span className="size-1.5 rounded-full bg-accent" aria-hidden />
+                  )}
+                  <span
+                    className={cn(
+                      'font-mono text-[0.6875rem] tracking-[0.14em] uppercase',
+                      role.current ? 'text-accent' : 'text-faint',
+                    )}
+                  >
+                    {role.period}
                   </span>
                 </div>
                 <h3 className="mt-4 text-lg font-semibold tracking-[-0.02em]">{role.role}</h3>
-                <p className="mt-1 text-[0.9375rem] text-muted">{role.company}</p>
+                <p className="mt-1 text-[0.9375rem] text-muted">
+                  {role.company}
+                  {role.location && (
+                    <span className="text-faint"> · {role.location}</span>
+                  )}
+                </p>
                 <p className="mt-4 font-mono text-[0.6875rem] leading-relaxed text-faint">
                   {role.context}
                 </p>

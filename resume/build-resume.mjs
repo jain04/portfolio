@@ -10,6 +10,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, rmSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { findChrome } from '../scripts/chrome.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '..')
@@ -17,24 +18,7 @@ const root = resolve(here, '..')
 const source = resolve(here, 'resume.html')
 const output = resolve(root, 'public/Aditya-Jain-Resume.pdf')
 
-const CHROME_CANDIDATES = [
-  process.env.CHROME_PATH,
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  '/Applications/Chromium.app/Contents/MacOS/Chromium',
-  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
-  '/usr/bin/google-chrome',
-  '/usr/bin/chromium',
-  '/usr/bin/chromium-browser',
-].filter(Boolean)
-
-const chrome = CHROME_CANDIDATES.find((path) => existsSync(path))
-
-if (!chrome) {
-  console.error(
-    'Could not find Chrome. Install Google Chrome, or set CHROME_PATH to a Chromium binary.',
-  )
-  process.exit(1)
-}
+const chrome = findChrome()
 
 if (!existsSync(source)) {
   console.error(`Missing resume source: ${source}`)

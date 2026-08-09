@@ -44,7 +44,11 @@ export const skillGroups: SkillGroup[] = [
       'RBAC',
       'JWT',
       'Refresh Token Rotation',
+      'SQL Injection Prevention',
+      'Input Validation',
+      'Secure Input Handling',
       'API Security',
+      'Secure Cookies',
     ],
   },
   {
@@ -64,24 +68,34 @@ export const skillGroups: SkillGroup[] = [
 export type Principle = {
   title: string
   question: string
+  /** What answering that question has actually meant in practice. */
+  detail: string
 }
 
 export const principles: Principle[] = [
   {
     title: 'Scalability',
     question: 'How does the system behave when users and data grow?',
+    detail:
+      'Aggregation pipelines, caching and database-performance work over high-volume workflow data.',
   },
   {
     title: 'Security',
     question: 'Who should be allowed to access this operation or information?',
+    detail:
+      'Authentication, authorization, secure token handling, input validation, and protection against application-layer vulnerabilities such as SQL injection.',
   },
   {
     title: 'Automation',
     question: 'Can repetitive manual work be eliminated?',
+    detail:
+      'Structured data and declarative field mappings in place of work that was being retyped by hand.',
   },
   {
     title: 'Integration',
     question: 'How do we connect systems that were never designed to work together?',
+    detail:
+      'Driving desktop software that exposes no API through its own UI automation tree.',
   },
 ]
 

@@ -26,6 +26,11 @@ export function Principles() {
             <p className="mt-3 max-w-sm text-[0.9375rem] leading-relaxed text-muted">
               {principle.question}
             </p>
+            {/* The question is the principle; this is the evidence that it is
+                more than a slogan. */}
+            <p className="mt-4 max-w-sm border-t border-line pt-4 text-[0.8125rem] leading-relaxed text-faint">
+              {principle.detail}
+            </p>
           </Reveal>
         ))}
       </ul>

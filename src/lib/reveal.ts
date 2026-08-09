@@ -9,12 +9,19 @@
  *     listener rather than IntersectionObserver, and a timer sweeps once after
  *     mount, so a throttled or missing observer can't strand an element at
  *     opacity 0.
+ *  3. A slow interval sweeps alongside the scroll listener. Browsers defer
+ *     scroll events while a tab is hidden or the compositor is throttled, and a
+ *     dropped event would otherwise leave a section permanently invisible. The
+ *     interval stops itself the moment everything has been revealed, so the
+ *     steady state is zero timers.
  */
 
 const watched = new Set<HTMLElement>()
 let listening = false
+let sweep = 0
 
 const MARGIN = 80
+const SWEEP_INTERVAL = 500
 
 function show(el: HTMLElement) {
   el.classList.add('is-visible')
@@ -39,6 +46,7 @@ function startListening() {
   listening = true
   window.addEventListener('scroll', check, { passive: true })
   window.addEventListener('resize', check, { passive: true })
+  sweep = window.setInterval(check, SWEEP_INTERVAL)
 }
 
 function stopListening() {
@@ -46,6 +54,8 @@ function stopListening() {
   listening = false
   window.removeEventListener('scroll', check)
   window.removeEventListener('resize', check)
+  window.clearInterval(sweep)
+  sweep = 0
 }
 
 export function arm() {

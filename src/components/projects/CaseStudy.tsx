@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
 import type { Project } from '../../data/projects'
-import { FlowDiagram } from './FlowDiagram'
+import { ProjectDiagram } from './ProjectDiagram'
 import { TagRow } from '../ui/Tag'
 import { useLockBodyScroll } from '../../hooks/useLockBodyScroll'
 
@@ -112,13 +112,7 @@ export function CaseStudy({ project, onClose }: CaseStudyProps) {
                 </p>
               )}
 
-              {project.caseStudy?.diagram && (
-                <FlowDiagram
-                  title={project.caseStudy.diagram.title}
-                  nodes={project.caseStudy.diagram.nodes}
-                  footer={project.caseStudy.diagram.footer}
-                />
-              )}
+              <ProjectDiagram project={project} />
 
               {project.caseStudy?.sections.map((section) => (
                 <div key={section.heading}>
@@ -164,6 +158,16 @@ export function CaseStudy({ project, onClose }: CaseStudyProps) {
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {project.areas && (
+                <div>
+                  <h3 className="text-sm font-semibold tracking-tight text-fg">
+                    Engineering areas
+                  </h3>
+                  {/* The full set. The card only had room for a slice. */}
+                  <TagRow items={project.areas} className="mt-4" />
                 </div>
               )}
 

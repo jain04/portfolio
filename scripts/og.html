@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Open Graph card</title>
+    <style>
+      /* Rendered at exactly 1200x630 by scripts/build-og.mjs.
+         Colours mirror the site tokens in src/styles/index.css. */
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 26px;
+        padding: 80px 88px;
+        background: #0a0a0b;
+        color: #f4f4f5;
+        font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        position: relative;
+      }
+
+      /* The same faint grid the hero uses, fading out toward the bottom. */
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 64px 64px;
+        -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 20%, transparent 78%);
+        mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 20%, transparent 78%);
+      }
+
+      .glow {
+        position: absolute;
+        top: -180px;
+        right: -120px;
+        width: 620px;
+        height: 620px;
+        border-radius: 50%;
+        background: #5b8cff;
+        opacity: 0.14;
+        filter: blur(120px);
+      }
+
+      .content {
+        position: relative;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 18px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #a1a1aa;
+      }
+
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #5b8cff;
+      }
+
+      h1 {
+        margin-top: 34px;
+        font-size: 82px;
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+        font-weight: 600;
+        max-width: 940px;
+      }
+
+      h1 .accent {
+        color: #5b8cff;
+      }
+
+      p {
+        margin-top: 30px;
+        max-width: 800px;
+        font-size: 27px;
+        line-height: 1.45;
+        color: #a1a1aa;
+      }
+
+      .stack {
+        margin-top: 44px;
+        padding-top: 30px;
+        border-top: 1px solid #232327;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 21px;
+        color: #8a8a93;
+      }
+
+      .sep {
+        color: #2f2f35;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid"></div>
+    <div class="glow"></div>
+
+    <div class="content">
+      <div class="eyebrow">
+        <span class="dot"></span>
+        Aditya Jain · Software Engineer
+      </div>
+
+      <h1>I build software that solves <span class="accent">real business problems.</span></h1>
+
+      <p>
+        Full-Stack Software Engineer specializing in scalable SaaS platforms, workflow
+        automation, integrations and AI-powered applications.
+      </p>
+
+      <div class="stack">
+        <span>React</span><span class="sep">·</span>
+        <span>Angular</span><span class="sep">·</span>
+        <span>Node.js</span><span class="sep">·</span>
+        <span>Python</span><span class="sep">·</span>
+        <span>MongoDB</span><span class="sep">·</span>
+        <span>Azure</span>
+      </div>
+    </div>
+  </body>
+</html>
