@@ -16,8 +16,14 @@ export const LINKEDIN_URL = 'https://www.linkedin.com/in/jain04/'
 
 export const GITHUB_URL = 'https://github.com/jain04'
 
-/** Generated from resume/resume.html by `npm run resume`. */
-export const RESUME_URL = '/Aditya-Jain-Resume.pdf'
+/**
+ * Generated from resume/resume.html by `npm run resume`.
+ *
+ * Built through BASE_URL because Vite rewrites asset paths in index.html but
+ * not string literals in JS — a bare '/Aditya-Jain-Resume.pdf' would 404 on the
+ * GitHub Pages project path. BASE_URL is '/' in dev and '/portfolio/' in build.
+ */
+export const RESUME_URL = `${import.meta.env.BASE_URL}Aditya-Jain-Resume.pdf`
 
 export const profile = {
   name: 'Aditya Jain',
