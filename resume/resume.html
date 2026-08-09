@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aditya Jain — Full-Stack Software Engineer</title>
+    <style>
+      /* ---------------------------------------------------------------------
+         Print-first resume. A4, real selectable text, single column so ATS
+         parsers read it in the right order. No web fonts: this is rendered by
+         headless Chrome with no network, so the stack must resolve locally.
+      --------------------------------------------------------------------- */
+      @page {
+        size: A4;
+        margin: 13mm 14mm;
+      }
+
+      :root {
+        /* Pin to light: without this the export inherits the host's dark mode
+           and renders dark-on-dark. */
+        color-scheme: light;
+
+        --ink: #16161a;
+        --body: #33333b;
+        --soft: #5f5f6b;
+        --rule: #d8d8de;
+        --accent: #2f5fd0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial,
+          sans-serif;
+        font-size: 9.6pt;
+        line-height: 1.42;
+        color: var(--body);
+        -webkit-font-smoothing: antialiased;
+        /* Keep the accent and rules in the printed output */
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* On screen the page is a centred sheet; print ignores this entirely. */
+      @media screen {
+        body {
+          max-width: 210mm;
+          margin: 24px auto;
+          padding: 16mm 14mm;
+          box-shadow: 0 1px 24px rgba(0, 0, 0, 0.12);
+        }
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      /* ---------- header ---------- */
+      header {
+        border-bottom: 1.5px solid var(--ink);
+        padding-bottom: 8px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 21pt;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      .role {
+        margin: 3px 0 0;
+        font-size: 10.5pt;
+        font-weight: 600;
+        color: var(--accent);
+      }
+
+      .specialisms {
+        margin: 2px 0 0;
+        font-size: 8.6pt;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
+
+      .contact {
+        margin: 7px 0 0;
+        font-size: 9pt;
+        color: var(--body);
+      }
+
+      .contact span + span::before {
+        content: '·';
+        margin: 0 7px;
+        color: var(--rule);
+      }
+
+      /* ---------- sections ---------- */
+      section {
+        margin-top: 13px;
+        /* keep a heading from stranding at the foot of a page */
+        break-inside: auto;
+      }
+
+      h2 {
+        margin: 0 0 7px;
+        padding-bottom: 3px;
+        border-bottom: 0.75px solid var(--rule);
+        font-size: 8.4pt;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--ink);
+        break-after: avoid;
+      }
+
+      .summary {
+        margin: 0;
+      }
+
+      /* ---------- entries ---------- */
+      .entry {
+        break-inside: avoid;
+      }
+
+      .entry + .entry {
+        margin-top: 9px;
+      }
+
+      .entry-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 10pt;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .org {
+        font-weight: 600;
+        color: var(--body);
+      }
+
+      .meta {
+        font-size: 8.6pt;
+        color: var(--soft);
+        white-space: nowrap;
+      }
+
+      .context {
+        margin: 1px 0 5px;
+        font-size: 9pt;
+        color: var(--soft);
+      }
+
+      ul {
+        margin: 4px 0 0;
+        padding-left: 14px;
+      }
+
+      li {
+        margin-bottom: 2.5px;
+      }
+
+      li::marker {
+        color: var(--accent);
+      }
+
+      .stack {
+        margin: 5px 0 0;
+        font-size: 8.8pt;
+        color: var(--soft);
+      }
+
+      .stack b {
+        color: var(--body);
+        font-weight: 600;
+      }
+
+      /* ---------- skills ---------- */
+      .skills {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 3px 14px;
+        font-size: 9.2pt;
+      }
+
+      .skills dt {
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .skills dd {
+        margin: 0;
+      }
+
+      /* ---------- education ---------- */
+      .edu {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .edu + .edu {
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Aditya Jain</h1>
+      <p class="role">Full-Stack Software Engineer</p>
+      <p class="specialisms">SaaS · Automation · Integrations · AI</p>
+      <p class="contact">
+        <span><a href="mailto:jainaditya0404@gmail.com">jainaditya0404@gmail.com</a></span>
+        <span><a href="https://www.linkedin.com/in/jain04/">linkedin.com/in/jain04</a></span>
+        <span><a href="https://github.com/jain04">github.com/jain04</a></span>
+      </p>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <p class="summary">
+        Full-Stack Software Engineer working on a production multi-tenant SaaS platform for tax
+        and accounting firms. Experience spans frontend and backend development, database design
+        and optimisation, authentication and security, cloud deployment and CI/CD, reporting and
+        workflow systems, and desktop application automation. Comfortable owning a feature from
+        the interface through the API and database to the infrastructure it runs on.
+      </p>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3>Software Engineer <span class="org">— BFirst</span></h3>
+          <span class="meta">Current</span>
+        </div>
+        <p class="context">AccuMax — Multi-Tenant Tax &amp; Accounting SaaS Platform</p>
+        <ul>
+          <li>
+            Built and enhanced full-stack features across Angular and React frontends and Node.js
+            / Python backend services on a multi-tenant platform serving client, CPA, admin and
+            internal team portals.
+          </li>
+          <li>
+            Developed workflow, task, document, notification, reporting and billing capabilities.
+          </li>
+          <li>
+            Implemented authentication and security capabilities including MFA/TOTP, role-based
+            access control, refresh-token rotation and secure cookie handling.
+          </li>
+          <li>
+            Built MongoDB aggregation pipelines and reporting APIs powering operational dashboards
+            and data exports.
+          </li>
+          <li>
+            Worked on application performance, caching and database-performance investigation for
+            high-volume workflow data.
+          </li>
+          <li>
+            Built GitHub Actions and Azure deployment workflows across multiple application
+            environments.
+          </li>
+          <li>
+            Developed automation and integration workflows connecting the platform to desktop tax
+            preparation software.
+          </li>
+        </ul>
+        <p class="stack">
+          <b>Stack:</b> Angular · React · TypeScript · Node.js · Python · MongoDB · Azure · GitHub
+          Actions · .NET 8 · REST APIs
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Selected Projects</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3>Tax Entry Automation</h3>
+          <span class="meta">.NET 8 · C#</span>
+        </div>
+        <p class="context">
+          Bridging structured tax data with desktop tax preparation software
+        </p>
+        <ul>
+          <li>
+            Built a Microsoft UI Automation–based system that writes structured tax data into
+            desktop tax preparation software that exposes no API — driving the application through
+            its own UI automation tree rather than OCR.
+          </li>
+          <li>
+            Implemented screen discovery and UI hierarchy inspection, reusable screen definitions,
+            and positive screen identification before any value is written.
+          </li>
+          <li>
+            Handled business-field mapping, value transformation into target formats, masked and
+            constrained inputs, and post-write verification of entered values.
+          </li>
+        </ul>
+        <p class="stack">
+          <b>Stack:</b> .NET 8 · C# · Microsoft UI Automation · JSON · Field Mapping · Screen
+          Identification · Data Transformation
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3>Real-Time Hospital Analytics</h3>
+          <span class="meta">Python · Django</span>
+        </div>
+        <p class="context">Operational dashboards with live updates and patient-level drilldowns</p>
+        <ul>
+          <li>
+            Built an analytics dashboard for hospital operations with interactive visualisations
+            and real-time updates delivered over WebSockets.
+          </li>
+          <li>
+            Implemented patient-level drilldowns from summary views and operational reporting
+            assembled with Pandas, replacing manual Excel-based reporting.
+          </li>
+        </ul>
+        <p class="stack">
+          <b>Stack:</b> Python · Django · Streamlit · WebSockets · Chart.js · Pandas
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3>AI Trip Planner</h3>
+          <span class="meta">React · Gemini AI</span>
+        </div>
+        <p class="context">AI-generated itineraries with a fast, responsive interface</p>
+        <ul>
+          <li>
+            Built a React application that turns trip inputs into structured itineraries using the
+            Gemini API, with Firebase for data and application state.
+          </li>
+          <li>Handled API integration, response processing and a responsive interface.</li>
+        </ul>
+        <p class="stack"><b>Stack:</b> React · Tailwind CSS · Firebase · Gemini AI</p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3>E-Commerce Platform &amp; News Application</h3>
+          <span class="meta">MERN · Flutter</span>
+        </div>
+        <ul>
+          <li>
+            Full-stack storefront covering product catalogue, cart, checkout flow and order
+            handling on a REST API backend (React, Node.js, Express, MongoDB).
+          </li>
+          <li>
+            Cross-platform mobile news client with category browsing and article views over a live
+            news API (Flutter, Dart).
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <dl class="skills">
+        <dt>Frontend</dt>
+        <dd>React, Angular, TypeScript, JavaScript, Next.js, Tailwind CSS, HTML, CSS</dd>
+
+        <dt>Backend</dt>
+        <dd>Node.js, Express, NestJS, Python, Django, REST APIs</dd>
+
+        <dt>Databases</dt>
+        <dd>MongoDB, PostgreSQL, MySQL, Redis</dd>
+
+        <dt>Cloud &amp; DevOps</dt>
+        <dd>Microsoft Azure, Azure App Service, GitHub Actions, CI/CD, Docker</dd>
+
+        <dt>Security</dt>
+        <dd>Authentication, MFA / TOTP, RBAC, JWT, Refresh Token Rotation, API Security</dd>
+
+        <dt>Automation &amp; AI</dt>
+        <dd>
+          Microsoft UI Automation, Workflow Automation, Generative AI, OpenAI, Gemini, API
+          Integrations
+        </dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="edu">
+        <span
+          ><b>Master of Computer Applications (MCA)</b> — Atria Institute of Technology</span
+        >
+        <span class="meta">CGPA 7.7</span>
+      </div>
+      <div class="edu">
+        <span
+          ><b>Bachelor of Computer Applications (BCA)</b> — KLE'S College of BCA RLSI,
+          Belagavi</span
+        >
+        <span class="meta">CGPA 7.4</span>
+      </div>
+    </section>
+  </body>
+</html>
